@@ -1,5 +1,5 @@
 <template>
-  <div  :style="'background-color:#20dc87;height:'+$q.screen.height+'px'"> 
+  <div  :style="'background-color:#20dc87;height:'+$q.screen.height+'px'">
     <div class="row justify-center" style="padding:16px">
       <q-img class="col-xs-12 col-sm-6" src="~assets/logo_login.png" />
     </div>
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-
+    <h1>MISA AQUI BABYSHARK</h1>
     <div class="row justify-center">
       <div class="col-xs-11 col-sm-6" >
         <q-input
@@ -40,23 +40,23 @@
             </template>
           </q-input>
       </div>
-      
+
     </div>
-    
+
 
     <div class="row justify-center">
       <div class="col-xs-10 col-sm-6" >
-        <q-btn 
-          type="submit" 
-          class="full-width"  
+        <q-btn
+          type="submit"
+          class="full-width"
           label="Entrar"
-          color="primary" 
-          text-color="white"  
-          rounded  
+          color="primary"
+          text-color="white"
+          rounded
           :loading="loadingBotaoLogin"
         >
           <template v-slot:loading>
-            <span style="padding-right:8px">Aguarde </span> 
+            <span style="padding-right:8px">Aguarde </span>
              <q-spinner-dots
               color="white"
               size="14px"
@@ -66,16 +66,16 @@
       </div>
     </div>
   </q-form>
-  
+
     <br>
   <div class="row justify-center">
     <div class="col-xs-10 col-sm-6" >
-      <q-btn 
+      <q-btn
           @click="loginFacebook"
           class="full-width"
           icon="fab fa-facebook"
           no-caps
-          size="14px" 
+          size="14px"
           label="Entrar com Facebook"
           text-color="white"
           style="background-color:#0572E6"
@@ -85,12 +85,12 @@
   </div><br>
   <div class="row justify-center">
     <div class="col-xs-10 col-sm-6" >
-      <q-btn 
+      <q-btn
           @click="$router.push({name:'Cadastro'})"
           class="full-width"
           no-caps
-          size="14px" 
-          
+          size="14px"
+
           text-color="primary"
           outline
           rounded
@@ -148,7 +148,7 @@ export default {
         this.msg_erro_senha = "Campo obrigatório"
          this.loadingBotaoLogin = false
         return
-      }else{         
+      }else{
         if(this.senha.length < 6 || this.senha.length > 12 ){
            this.loadingBotaoLogin = false
           this.check_erro_senha = true;
@@ -173,9 +173,9 @@ export default {
         }
       const usuario = await Axios.post("https://us-central1-transpop-9b36c.cloudfunctions.net/app/api/usuarios/login",dados,axiosConfig).
       then((res) => {
-        if(res.data.usuarioExiste){      
+        if(res.data.usuarioExiste){
           this.loadingBotaoLogin = false
-          this.atualizarUsuario(res.data.data)     
+          this.atualizarUsuario(res.data.data)
           this.$q.localStorage.set("permissao-tela-home",true)
           this.$router.push({name:"Home"});
           return;
@@ -259,5 +259,5 @@ export default {
 }
 </script>
 <style scoped>
-  
+
 </style>
