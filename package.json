@@ -7,7 +7,10 @@
   "private": true,
   "cordovaId": "br.com.henvio.app",
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider quasar dev",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider quasar build",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@capacitor-community/admob": "^3.2.0",
@@ -21,7 +24,8 @@
     "vue-apexcharts": "^1.6.2"
   },
   "devDependencies": {
-    "@quasar/app": "^2.2.10"
+    "@quasar/app": "^2.2.10",
+    "cross-env": "^10.1.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
