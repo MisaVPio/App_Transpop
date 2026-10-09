@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "@quasar/app": "^2.2.10",
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "wrangler": "^4.149.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
