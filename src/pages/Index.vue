@@ -50,8 +50,8 @@
       </q-carousel-slide>
     </q-carousel>
     <div class="absolute-bottom bg-white text-positive">
-     
-      
+
+
       <div class="row justify-center">
         <q-btn-group flat>
           <q-btn @click="slide='slide1'" flat :color="corIconesApresentacaoApp" icon="fas fa-star" />
@@ -115,7 +115,7 @@ export default {
       }
       if(this.slide == 'slide3'){
         this.$q.localStorage.set('primeiraVezApp',true)
-        this.$router.push({name:'Login'})
+        this.$router.push({name:'Home'})
       }
     },
     async iniciarDispositivo(){
@@ -133,7 +133,7 @@ export default {
 
       if(this.dispositivo.platform != 'web')
         this.inicializarAdmob()
-     
+
     },
     async inicializarAdmob(){
       console.log("INICIALIZANDO ADMOB");
@@ -173,19 +173,16 @@ export default {
       this.$q.localStorage.set('proposicoesFavoritos',[])
       this.$q.localStorage.set('ID_proposicoesFavoritos',[])
     }else{
-        if(!this.$q.localStorage.getItem('passou-tela-cadastro'))
-          this.$router.push({name:'Login'})
-        else
-          this.$router.push({name:'Home'})
+      this.$router.push({name:'Home'})
     }
   },
   created(){
-  
- 
+
+
   },
   beforeMount(){
   this.iniciarDispositivo()
-   
+
   },
   mounted(){
     //console.log(this.$q.screen)
@@ -197,4 +194,3 @@ export default {
 <style>
 
 </style>
- 
