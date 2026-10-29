@@ -8,7 +8,7 @@
           class="text-weight-bold bg-yellow-2"
         >
        <div class="bg-grey-2">
-        <br> 
+        <br>
             <q-input outlined v-model="filtro_nome" label="nome" /><br>
             <q-select outlined v-model="filtro_siglaUf" :options="select_ufs"   label="UF Autor" /><br>
             <q-select outlined v-model="filtro_siglaSexo" :options="select_sexo"   label="Sexo" /><br>
@@ -24,14 +24,14 @@
           <q-select outlined v-model="filtro_itens" :options="select_itens"  label="Itens por página"  /><br>
             <div class="row justify-end" style="padding-bottom:16px">
               <q-btn @click="pesquisaComFiltro" color="dark" label="Pesquisar" no-caps />
-            </div>    
+            </div>
        </div>
         </q-expansion-item>
-         
+
          <div class="row "><span class="col-12 text-right text-grey-9 text-weight-bold">{{'Resultado: '+deputados.length +' encontrados'}}</span> </div>
         <div class="row justify-center">
             <div  v-for="(deputado,index) in deputados" :key="index" class="col-xs-12 col-sm-4 row" style="border:1px solid green; margin-bottom:5px; border-radius:10px;padding:10px">
-              
+
             <div @click="informacaoDeputado(deputado)"  class="col-xs-3 col-sm-12"><img width="100%" :src="deputado.urlFoto" /></div>
             <div @click="informacaoDeputado(deputado)"  class="col-xs-8 col-sm-12 row" style="padding-left:5px">
                 <div class="col-xs-12 text-h6 text-grey-9">{{deputado.nome}} </div>
@@ -81,7 +81,7 @@ const UFs =[
     'SE',
     'TO',
 ];
-const PARTIDOS = 
+const PARTIDOS =
 [
     {
     id: 36898,
@@ -324,7 +324,7 @@ const PARTIDOS =
         uri: "https://dadosabertos.camara.leg.br/api/v2/partidos/37904"
     }
 ];
-import { axiosInstance } from 'boot/axios'
+import { axiosCamara } from 'boot/axios'
 const config = { headers: { 'Content-Type': 'application/json' } };
 export default {
   data () {
@@ -356,12 +356,12 @@ export default {
   },
   methods:{
     pesquisaComFiltro(){
-        let consulta= ''   
+        let consulta= ''
         if(this.filtro_itens)
             consulta = "?itens="+this.filtro_itens
         else
             consulta = "?itens=30"
-    
+
         //filtro_nome
         if(this.filtro_nome){consulta = consulta + "&nome=" + this.filtro_nome}
         //filtro_siglaUf
@@ -380,11 +380,11 @@ export default {
     },
    informacaoDeputado(deputadoEscolhido){
        return this.$store.dispatch("dadosAbertos/informacaoDeputado",deputadoEscolhido)
-       
+
    },
    filtrarPartidos(){
        let pesquisa = this.filtro_siglaPartido.toUpperCase()
-       this.partidosFiltrado = this.partidos.filter(element => { return element.sigla.includes(pesquisa)}) 
+       this.partidosFiltrado = this.partidos.filter(element => { return element.sigla.includes(pesquisa)})
    },
    adicionarProximosDeputados(dados){
         return this.$store.commit('dadosAbertos/adicionarProximosDeputados',dados)
@@ -392,7 +392,7 @@ export default {
     async carregarMais(){
        let prox = this.$q.localStorage.getItem('nextDeputados')
        prox = prox.split('https://dadosabertos.camara.leg.br/api/v2/deputados/')
-       await axiosInstance.get("deputados/"+prox[1],config).then((response) =>{
+       await axiosCamara.get("deputados/"+prox[1],config).then((response) =>{
             console.log(response);
             this.adicionarProximosDeputados(response.data.dados)
             let urlNext = false
@@ -419,9 +419,9 @@ export default {
    },
    salvarDeputadoFavoritos(index){
     //Salvar IDs para pesquisa rápida
-    //Salvar deputados para utilizar na página Favoritos (delimitar qtde?)   
+    //Salvar deputados para utilizar na página Favoritos (delimitar qtde?)
     this.coracoesFavoritos[index]['situacao'] = !this.coracoesFavoritos[index]['situacao']
-      
+
        let deputado = this.deputados[index];
        let deputados = this.$q.localStorage.getItem('deputadosFavoritos');
        let ids = this.$q.localStorage.getItem('ID_deputadosFavoritos');
@@ -431,7 +431,7 @@ export default {
     }else{// Excluir Favoritos
         let retirarID = ids;
         let retirarDeputado = deputados;
-        retirarID.forEach((idRemover,index) =>{ 
+        retirarID.forEach((idRemover,index) =>{
             if(idRemover === deputado.id){
                 ids.splice(index,1)
             }
@@ -442,10 +442,10 @@ export default {
             }
         })
     }
-   
+
     this.$q.localStorage.set('ID_deputadosFavoritos',ids)
     this.$q.localStorage.set('deputadosFavoritos',deputados)
-   
+
    },
    verificarCoracao(){
        let deputadosFavoritos = this.$q.localStorage.getItem('ID_deputadosFavoritos');
@@ -454,13 +454,13 @@ export default {
                 this.coracoesFavoritos.push({id:element.id,situacao:true})
             }else{
                 this.coracoesFavoritos.push({id:element.id,situacao:false})
-            }      
-        }) 
+            }
+        })
    },
   },
   watch:{
       deputados:function(val){
-          console.log(val);          
+          console.log(val);
           this.coracoesFavoritos=[]
           this.verificarCoracao()
       }
@@ -469,10 +469,10 @@ export default {
         if(!this.$q.localStorage.getItem('ultimaPesquisaDeputados')){
             this.pesquisaComFiltro();
         }
-        this.verificarCoracao()  
+        this.verificarCoracao()
     },
     mounted(){
-       
+
     }
 }
 </script>

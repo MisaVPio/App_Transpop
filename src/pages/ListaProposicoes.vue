@@ -8,40 +8,40 @@
       class="text-weight-bold bg-yellow-2"
     >
        <div class="bg-grey-2">
-        <br> 
+        <br>
           <q-input outlined v-model="filtro_autor" label="Autor da proposição" /><br>
           <q-input outlined v-model="filtro_ano" mask="####" label="Ano de criação" /><br>
-    
+
           <q-select outlined v-model="filtro_siglaTipo" :options="options_siglaTipo" label="Tipo da proposição" /><br>
           <q-select outlined v-model="filtro_codTema" :options="options_categorias" label="Categoria" /><br>
-      
+
           <q-select outlined v-model="filtro_itens" :options="options_itens" label="itens"  /><br>
             <div class="row justify-end" style="padding-bottom:16px">
               <q-btn @click="pesquisaComFiltro" color="dark" label="Pesquisar" no-caps />
-            </div>    
+            </div>
        </div>
     </q-expansion-item>
     <div v-if="proposicoesDetalhadas">
         <div class="" v-for="(proposicao,index) in proposicoesDetalhadas" :key="index" style="border: 1px solid green;border-radius:10px; padding:10px;margin-bottom:6px" >
           <div class="row" style="margin-bottom:5px">
-            <div class="text-h6 col-11 text-grey-9">  {{proposicao.siglaTipo +' ' +proposicao.numero +'/'+proposicao.ano}} </div> 
+            <div class="text-h6 col-11 text-grey-9">  {{proposicao.siglaTipo +' ' +proposicao.numero +'/'+proposicao.ano}} </div>
             <div class="col-1 text-center" style="margin-top:5px">
                 <q-icon @click="salvarProposicaoFavoritos(index)" v-model="coracoesFavoritos[index]" size="21px" color="red" :name="coracoesFavoritos[index]['situacao']?'fas fa-heart':'far fa-heart'" />
             </div>
           </div>
-           
+
           <div style="font-size:16px; margin-bottom:5px"><span class="text-weight-bold text-grey-9">Ementa:</span>{{proposicao.ementa}} </div>
           <div><span class="text-weight-bold text-grey-9">Ano: </span> {{proposicao.ano}} </div>
           <div style="margin-bottom:5px"><span class="text-weight-bold text-grey-9">Situação:</span>{{proposicao.statusProposicao.descricaoSituacao}}</div>
-       
-          <div class="row justify-end"><q-btn color="primary" rounded no-caps label="Ver detalhes" @click="verDetalhes(proposicao)"  text-color="white" /> </div> 
+
+          <div class="row justify-end"><q-btn color="primary" rounded no-caps label="Ver detalhes" @click="verDetalhes(proposicao)"  text-color="white" /> </div>
       </div>
     </div>
     <div class="text-black text-h6 text-grey-7" v-if="msgSemResultado">Nenhum resultado encontrado</div>
   </q-page>
 </template>
 <script>
-import { axiosInstance } from 'boot/axios'
+import { axiosCamara } from 'boot/axios'
 import {Axios} from 'boot/axios'
   const config = { headers: { 'Content-Type': 'application/json' } };
   const CATEGORIAS_Nomes = [ //https://dadosabertos.camara.leg.br/api/v2//referencias/proposicoes/codTema
@@ -76,7 +76,7 @@ import {Axios} from 'boot/axios'
     'Energia, Recursos Hídricos e Minerais',
     'Agricultura, Pecuária, Pesca e Extrativismo',
     'Relações Internacionais e Comércio Exterior',
-    'Meio Ambiente e Desenvolvimento Sustentável',   
+    'Meio Ambiente e Desenvolvimento Sustentável',
   ]
   const CATEGORIAS_COD = [
     40,
@@ -112,7 +112,7 @@ import {Axios} from 'boot/axios'
     55,
     48,
   ]
-  const SIGLA_TIPO = [ 
+  const SIGLA_TIPO = [
     'PL  - Projeto de Lei',
     'PLP - Projeto de Lei Complementar',
     'PEC - Proposta de Emenda à Constituição',
@@ -133,7 +133,7 @@ export default {
       proposicoesDetalhadas:[],
 
       msgSemResultado:false,
-     
+
     //FILTROS PESQUISA AVANÇADA
       filtro_autor:'',
       filtro_ano:'',
@@ -141,7 +141,7 @@ export default {
       filtro_dataFim:'',
       filtro_siglaTipo:'',
       filtro_codTema:'',
-  
+
       filtro_itens:'',
     //SELECTS
       options_siglaTipo:SIGLA_TIPO,
@@ -158,12 +158,12 @@ export default {
   },
   methods:{
     pesquisaComFiltro(){
-        let consulta= ''   
+        let consulta= ''
         if(this.filtro_itens)
             consulta = "?itens="+this.filtro_itens
         else
             consulta = "?itens=15"
-    
+
         //filtro_autor
         if(this.filtro_autor){consulta = consulta + "&autor=" + this.filtro_autor}
          //filtro_ano
@@ -183,17 +183,17 @@ export default {
 
         this.requisitarProposicoes(consulta)
     },
-    async requisitarProposicoes(consulta){  
-      await axiosInstance.get("proposicoes"+consulta,config).then((response) =>{
+    async requisitarProposicoes(consulta){
+      await axiosCamara.get("proposicoes"+consulta,config).then((response) =>{
         let resultado = response.data.dados
         this.proposicoes = resultado
         this.proposicoesDetalhadas = []
-      
+
         if(Array.isArray(resultado)){
           if(resultado.length > 0){
             this.msgSemResultado = false
             resultado.forEach(element => {
-              if(element.uri){ 
+              if(element.uri){
                 Axios.get(element.uri,config).then((response) =>{
                   console.log(response.data.dados)
                   this.proposicoesDetalhadas.push(response.data.dados)
@@ -218,7 +218,7 @@ export default {
     salvarProposicaoFavoritos(index){
     //Salvar IDs para pesquisa rápida
     //Salvar proposicões para utilizar na página Favoritos (delimitar qtde?)
-     
+
       this.coracoesFavoritos[index]['situacao'] = !this.coracoesFavoritos[index]['situacao']
 
       let proposicao = this.proposicoesDetalhadas[index];
@@ -230,7 +230,7 @@ export default {
     }else{// Excluir Favoritos
         let retirarID = ids;
         let retirarProposicao = proposicoes;
-        retirarID.forEach((idRemover,index) =>{ 
+        retirarID.forEach((idRemover,index) =>{
             if(idRemover === proposicao.id){
                 ids.splice(index,1)
             }
@@ -241,10 +241,10 @@ export default {
             }
         })
     }
-   
+
     this.$q.localStorage.set('ID_proposicoesFavoritos',ids)
     this.$q.localStorage.set('proposicoesFavoritos',proposicoes)
-   
+
    },
     verificarCoracao(){
        let proposicoesFavoritos = this.$q.localStorage.getItem('ID_proposicoesFavoritos');
@@ -253,14 +253,14 @@ export default {
                 this.coracoesFavoritos.push({id:element.id,situacao:true})
             }else{
                 this.coracoesFavoritos.push({id:element.id,situacao:false})
-            }      
-        }) 
+            }
+        })
    },
 
   },
   watch:{
     proposicoesDetalhadas:function(val){
-          console.log(Array.isArray(val));          
+          console.log(Array.isArray(val));
           this.coracoesFavoritos=[]
           this.verificarCoracao()
     }
@@ -279,7 +279,7 @@ export default {
       if(ultimasProposicoes.length > 0){
         this.proposicoesDetalhadas = ultimasProposicoes
       }
-    }  
+    }
  },
  mounted(){
 

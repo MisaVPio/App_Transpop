@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf"  >
-  <!-- HEADER --> 
+  <!-- HEADER -->
     <q-header v-if="mostrarHeader" style="background-image: linear-gradient(to bottom right, #28B977,#def172 );">
       <q-toolbar>
         <q-btn
@@ -26,7 +26,7 @@
           />
         </div>
       </q-toolbar>
-     <!-- TABS FAVORITOS --> 
+     <!-- TABS FAVORITOS -->
       <q-tabs
         v-if="mostrarTabFavoritos"
         v-model="tabFavoritos"
@@ -37,16 +37,16 @@
         mobile-arrows
       >
         <q-tab @click="mudarTabFavoritos('deputados')" no-caps  name="deputados"   class="col-4 text-grey-7" label="Deputados" />
-        <q-tab @click="mudarTabFavoritos('proposicoes')" no-caps  name="proposicoes"   class="col-4 text-grey-7" label="Proposições" /> 
+        <q-tab @click="mudarTabFavoritos('proposicoes')" no-caps  name="proposicoes"   class="col-4 text-grey-7" label="Proposições" />
         <q-tab @click="mudarTabFavoritos('candidatos')" no-caps  name="candidatos"  class="col-4 text-grey-7" label="Votações" />
       </q-tabs>
     </q-header>
- 
-    <!-- ROTEADOR DE PÁGINAS --> 
+
+    <!-- ROTEADOR DE PÁGINAS -->
     <q-page-container >
       <router-view class="q-pa-xs col-xs-12 col-md-8"  />
     </q-page-container>
-    <!-- DRAWER--> 
+    <!-- DRAWER-->
     <q-drawer
       v-model="mostrarDrawer"
       :width="$q.screen.width"
@@ -73,17 +73,17 @@
 
           <q-item-section>Indique a um amigo</q-item-section>
         </q-item>
-       
-        
-        <q-item 
+
+
+        <q-item
           clickable
-          v-ripple 
+          v-ripple
        >
           <q-item-section avatar>
             <q-icon ><i class="fas fa-users " aria-hidden="true"></i></q-icon>
           </q-item-section>
            <q-item-section>Para Candidatos</q-item-section>
-          
+
         </q-item>
          <q-item
           clickable
@@ -101,7 +101,7 @@
           v-ripple
           @click="$router.push({name:'Privacidade'})"
           >
-          
+
           <q-item-section avatar>
             <q-icon><i class="fa fa-file " aria-hidden="true"></i></q-icon>
           </q-item-section>
@@ -119,17 +119,17 @@
 
           <q-item-section>Política de privacidade</q-item-section>
         </q-item>
-         <q-item 
+         <q-item
           clickable
-           v-ripple 
+           v-ripple
          >
           <q-item-section avatar>
             <q-icon ><i class="fa fa-wrench " aria-hidden="true"></i></q-icon>
           </q-item-section>
           <q-item-section>Configurações</q-item-section>
-         
+
         </q-item>
-        <q-item
+        <!-- <q-item
           @click="logout"
           clickable
           v-ripple
@@ -139,26 +139,26 @@
           </q-item-section>
 
           <q-item-section>Sair</q-item-section>
-        </q-item>
+        </q-item> -->
       </q-list>
-    
+
       <q-img class="absolute-top" style="height:180px;  background-image: linear-gradient(to bottom right, green,yellow );" >
-        
+
           <div class="bg-transparent full-width" >
             <q-avatar color="grey-2" text-color="positive" size="80px" >
-              W
+              U
             </q-avatar>
           <div class="row">
-            <span class="text-h6 col-10"> Olá, Willer! </span>
+            <span class="text-h6 col-10"> Olá, User! </span>
             <q-icon  class="col-2 " name="fas fa-pen" />
           </div>
-       <div class="">willer@gmail.com</div> 
+       <div class="">user@gmail.com</div>
           </div>
       </q-img>
       <!--ESTE BOTÃO PRECISA SER NECESSARIAMENTE DEPOIS DE IMG-->
       <q-btn class="absolute-top-right" @click="alterarDrawer"  text-color="white" icon="fas fa-times" flat />
     </q-drawer>
-  <!-- FOOTER --> 
+  <!-- FOOTER -->
     <q-footer v-if="mostrarFooter" style="height:60px" class="bg-transparent text-grey-7">
        <q-tabs
             v-model="tabFooter"
@@ -167,7 +167,7 @@
             active-bg-color="grey-4"
             indicator-color="grey-3"
         >
-     
+
         <q-tab style="max-width:25%" no-caps @click="paginaAtual != 'Home'?$router.push({name:'Home'}):''"  name="home" ><q-icon size="25px" name="fas fa-home"/><span class="text-grey-7 " style="font-size:12px">Home</span> </q-tab>
         <q-tab style="max-width:25%" no-caps @click="paginaAtual != 'Favoritos'?$router.push({name:'FavoritosDeputados'}):''" name="favoritos" ><q-icon size="25px" name="fas fa-heart"/><span class="text-grey-7 " style="font-size:12px">Favoritos</span> </q-tab>
         <q-tab style="max-width:25%" no-caps @click="paginaAtual != 'Favoritos'?$router.push({name:'TimeLine'}):''" name="timeline" ><q-icon size="25px" name="fas fa-bars"/><span class="text-grey-7 " style="font-size:12px">Timeline</span> </q-tab>
@@ -187,7 +187,7 @@ export default {
       height:600,
       paginaAtual:"Index",
       mostrarDrawer: false,
-      
+
     //INFORMAÇÕES HEADER
       mostrarHeader:false,
       mostrarBotaoDireitoHeader:false,
@@ -216,12 +216,12 @@ export default {
         this.mostrarHeader = false;
         this.mostrarFooter = false;
       }
-      
+
       if(this.paginaAtual == "Login" ){
         this.mostrarHeader = false;
         this.mostrarFooter = false;
       }
-     
+
       if(this.paginaAtual == "Home"){
         this.mostrarFooter = true;
         this.inicializarHeader({
@@ -232,9 +232,32 @@ export default {
           iconeBotaoEsquerdoHeader:'fas fa-bars',
           tituloHeader:'TransPop',
         })
-        
+
+
       }
-      if( this.paginaAtual == "ListaCategoria" || this.paginaAtual == "ListaProposicoes" || 
+      if(this.paginaAtual == "HomeCamara"){
+        this.mostrarFooter = true;
+        this.inicializarHeader({
+          mostrarHeader:true,
+          mostrarBotaoDireitoHeader:false,
+          mostrarBotaoEsquerdoHeader:true,
+          iconeBotaoDireitoHeader:'',
+          iconeBotaoEsquerdoHeader:'fas fa-arrow-left',
+          tituloHeader:'Camara',
+        })
+      }
+      if(this.paginaAtual == "HomeSenado"){
+        this.mostrarFooter = true;
+        this.inicializarHeader({
+          mostrarHeader:true,
+          mostrarBotaoDireitoHeader:false,
+          mostrarBotaoEsquerdoHeader:true,
+          iconeBotaoDireitoHeader:'',
+          iconeBotaoEsquerdoHeader:'fas fa-arrow-left',
+          tituloHeader:'Senado',
+        })
+      }
+      if( this.paginaAtual == "ListaCategoria" || this.paginaAtual == "ListaProposicoes" ||
           this.paginaAtual == "ListaVotacoes" || this.paginaAtual == "ListaDeputados"
         ){
         this.mostrarFooter = false;
@@ -255,27 +278,27 @@ export default {
     },
     inicializarHeader(informacoesHeader){
       console.log(informacoesHeader)
-      //mostrarHeader 
+      //mostrarHeader
       informacoesHeader.mostrarHeader?this.mostrarHeader = informacoesHeader.mostrarHeader: this.mostrarHeader = false
-      //mostrarBotaoDireito 
+      //mostrarBotaoDireito
       informacoesHeader.mostrarBotaoDireitoHeader?this.mostrarBotaoDireitoHeader = informacoesHeader.mostrarBotaoDireitoHeader: this.mostrarBotaoDireitoHeader = false
-      //mostrarBotaoEsquerdo 
+      //mostrarBotaoEsquerdo
       informacoesHeader.mostrarBotaoEsquerdoHeader?this.mostrarBotaoEsquerdoHeader = informacoesHeader.mostrarBotaoEsquerdoHeader: this.mostrarBotaoEsquerdoHeader = false
-      //iconeBotaoDireito 
+      //iconeBotaoDireito
       informacoesHeader.iconeBotaoDireitoHeader?this.iconeBotaoDireitoHeader = informacoesHeader.iconeBotaoDireitoHeader:this.iconeBotaoDireitoHeader = ''
-      //iconeBotaoEsquerdo 
+      //iconeBotaoEsquerdo
       informacoesHeader.iconeBotaoEsquerdoHeader?this.iconeBotaoEsquerdoHeader = informacoesHeader.iconeBotaoEsquerdoHeader:this.iconeBotaoEsquerdoHeader =''
-      //tituloHeader 
+      //tituloHeader
       informacoesHeader.tituloHeader?this.tituloHeader = informacoesHeader.tituloHeader:this.tituloHeader = ''
-    
+
     },
     acaoBotaoDireitoHeader(){
       if(this.paginaAtual === 'ListaVotacoes'){this.alterarDialogInformativoVotacao(true)};
-      
+
     },
     acaoBotaoEsquerdoHeader(){
       if(this.paginaAtual == "Home"){
-        this.alterarDrawer(); 
+        this.alterarDrawer();
       }else{
         this.backButton()
       }
@@ -286,10 +309,12 @@ export default {
     },
     backButton(){
       if(this.paginaAtual == "Cadastro"){this.$router.push({name:'Login'})}
-      if(this.paginaAtual == "ListaCategoria"){this.$router.push({name:'Home'})}
-      if(this.paginaAtual == "ListaProposicoes"){this.$router.push({name:'Home'})}
-      if(this.paginaAtual == "ListaVotacoes"){this.$router.push({name:'Home'})}
-      if(this.paginaAtual == "ListaDeputados"){this.$router.push({name:'Home'})}
+      if(this.paginaAtual == "HomeCamara"){this.$router.push({name:'Home'})}
+      if(this.paginaAtual == "HomeSenado"){this.$router.push({name:'Home'})}
+      if(this.paginaAtual == "ListaCategoria"){this.$router.push({name:'HomeCamara'})}
+      if(this.paginaAtual == "ListaProposicoes"){this.$router.push({name:'HomeCamara'})}
+      if(this.paginaAtual == "ListaVotacoes"){this.$router.push({name:'HomeCamara'})}
+      if(this.paginaAtual == "ListaDeputados"){this.$router.push({name:'HomeCamara'})}
       if(this.paginaAtual == "Deputado"){
         if(this.$q.localStorage.getItem('paginaAnterior') == 'Proposicao')
            this.$router.push({name:'Proposicao'})
@@ -338,11 +363,11 @@ export default {
         AdMob.removeBanner()
         console.log("ENTROU NO THENN FECHAR ADMOB");
         this.mudarAdmobVisivel(false)
-      }  
+      }
       const ctx = this
       setTimeout(function(){ // Estava abrindo antes de remover banner
         ctx.mostrarPropagandaAdmob()
-      },3000) 
+      },3000)
     },
     mostrarPropagandaAdmob(){
       console.log("Função mostrarPropagandaAdmob");
@@ -363,7 +388,7 @@ export default {
            AdMob.showBanner(options)
             console.log("ENTROU MOSTRAR PROPAGANDA");
             this.mudarAdmobVisivel(true)
-          
+
         }
       }
     },
@@ -393,11 +418,11 @@ export default {
     atualizarUsuario(dados){
       return this.$store.commit('globais/atualizarUsuarioLogado',dados)
     },
-    logout(){
-      this.atualizarUsuario(null)
-      this.$q.localStorage.set("permissao-tela-home",false)
-      this.$router.push({name:'Login'})
-    }
+    // logout(){
+    //   this.atualizarUsuario(null)
+    //   this.$q.localStorage.set("permissao-tela-home",false)
+    //   this.$router.push({name:'Login'})
+    // }
   },
   watch:{
     $route: function(paginaAtual, paginaAnterior){
@@ -405,14 +430,14 @@ export default {
       this.paginaAnterior = paginaAnterior.name;
       this.$q.localStorage.set('paginaAtual',this.paginaAtual)
       this.$q.localStorage.set('paginaAnterior',this.paginaAnterior)
-    
+
       this.inicializacaoPagina();
       this.fecharBannerAdmob()
-      
+
     }
   },
   mounted(){
-    
+
 
   }
 }

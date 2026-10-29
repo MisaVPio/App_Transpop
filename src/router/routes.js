@@ -9,8 +9,10 @@ const routes = [
       { path: 'login', component: () => import('src/pages/Login.vue'), name:'Login' },
       { path: 'esqueci-senha', component: () => import('src/pages/EsqueciSenha.vue'), name:'EsqueciSenha' },
       { path: 'home', component: () => import('src/pages/Home.vue'), name:'Home' },
+      { path: 'homeCamara', component: () => import('src/pages/HomeCamara.vue'), name:'HomeCamara' },
+      { path: 'homeSenado', component: () => import('src/pages/HomeSenado.vue'), name:'HomeSenado' },
       { path: 'timeline', component: () => import('src/pages/TimeLine.vue'), name:'TimeLine' },
-      
+
       { path: 'lista-categoria', component: () => import('src/pages/ListaCategoria.vue'), name:'ListaCategoria' },
       { path: 'lista-votacoes', component: () => import('pages/ListaVotacoes.vue'), name:'ListaVotacoes' },
       { path: 'lista-deputados', component: () => import('pages/ListaDeputados.vue'), name:'ListaDeputados' },
@@ -28,7 +30,7 @@ const routes = [
       { path: 'favoritos-votacoes', component: () => import('src/pages/favoritos/FavoritosVotacoes.vue'), name:'FavoritosVotacoes' },
       //Privacidade
       { path: 'privacidade', component: () => import('src/pages/Privacidade.vue'), name:'Privacidade' }
-     
+
     ]
   },
 

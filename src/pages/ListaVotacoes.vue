@@ -32,16 +32,16 @@
           <q-radio v-model="filtro_situacao" val="0" label="Reprovadas" />
           <q-radio v-model="filtro_situacao" val="tudo" label="Todas" />
         </div>
-       
+
         <div class="row justify-end" style="padding:4px">
           <q-btn @click="requisitarVotacoes" color="dark" label="Pesquisar" no-caps />
-        </div>    
+        </div>
       </q-form>
     </q-expansion-item>
     <!-- CARD VOTAÇÃO -->
     <div @click="$router.push({name:'Votacao', params:{votacao:votacao}})"  v-for="(votacao,index) in votacoes" :key="index" style="border: 1px solid green;border-radius:10px; padding:10px;margin-bottom:6px" >
       <div class="row" style="margin-bottom:5px">
-        <div style="font-size:16px;" class="col-12 text-grey-9 text-weight-bold"> {{votacao.descricao}}</div> 
+        <div style="font-size:16px;" class="col-12 text-grey-9 text-weight-bold"> {{votacao.descricao}}</div>
       </div>
       <div style="margin-bottom:5px">
         <span class="text-weight-bold text-grey-9">Situação:</span>
@@ -61,7 +61,7 @@
         <q-card-section>
           <div class="text-h5 text-center">O que é uma votação?</div>
         </q-card-section>
-        
+
         <q-card-section class="col q-pt-none text-justify scroll">
           <q-img src="~assets/Homem_Duvida.jpg" />
           <p>A votação é a última etapa da tramitação de uma proposição.</p>
@@ -69,7 +69,7 @@
           <p>Sempre tem um e <b>somente um objeto</b>, que é a proposição efetivamente votada. </p>
           <p>Cada votação pode gerar tramitações e outros efeitos sobre uma ou mais proposições que sejam relacionadas à proposição que é objeto da votação.</p>
         </q-card-section>
-      
+
         <q-card-actions align="right" class="bg-white">
           <q-btn text-color="grey-9" no-caps flat label="Saber Mais" v-close-popup />
           <q-btn @click="alterarDialogInformativoVotacao(false)" text-color="positive" no-caps flat label="Entendi" v-close-popup />
@@ -79,7 +79,7 @@
   </q-page>
 </template>
 <script>
-import { axiosInstance } from 'boot/axios';
+import { axiosCamara } from 'boot/axios';
 import {Axios} from 'boot/axios'
 const config = { headers: { 'Content-Type': 'application/json' } };
 
@@ -121,64 +121,64 @@ export default {
       select_itens:[15,30, 50, 100,200],
       select_orgaos:[],
       select_mes:['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-    
+
       filtro_mesInicio:'',
       filtro_mesFinal:'',
       filtro_ano:'',
       filtro_orgao:'',
       filtro_situacao:'',
       filtro_itens:'',
-   
+
     }
   },
   computed:{
     mostrarDialogInformativoVotacao(){
-      return this.$store.state.dadosAbertos.mostrarDialogInformativoVotacao
+      return this.$store.state.dadosCamara.mostrarDialogInformativoVotacao
     }
   },
   methods:{
     alterarDialogInformativoVotacao(dado){
-      return this.$store.commit('dadosAbertos/alterarDialogInformativoVotacao',dado)
+      return this.$store.commit('dadosCamara/alterarDialogInformativoVotacao',dado)
     },
-    
+
     async requisitarVotacoes(){
       this.$q.loading.show({
         message:'Aguarde um momento ... ',
       })
       let date = new Date();
-      
+
       let mes = date.getMonth() <= 10 ? '0' +  date.getMonth() : date.getMonth()
       let dia = date.getDate() <= 10 ? '0'  +  date.getDate() : date.getDate()
-      
+
       let dataInicial = (date.getFullYear()) + '-' + mes + '-' + dia
 
-      let mesDiferenca = parseInt(mes) +1 
+      let mesDiferenca = parseInt(mes) +1
       mesDiferenca = mesDiferenca <= 10 ?'0'+mesDiferenca:mesDiferenca
 
       let dataFinal = (date.getFullYear()) + '-' + mesDiferenca + '-' + dia
-  
-      
+
+
       let itens = this.filtro_itens?'itens='+this.filtro_itens:'itens=200' //Padrão 100 resultados
     //  let orgao = this.filtro_orgao?`&idOrgao=${this.filtro_orgao}`:`&idOrgao=2003,2004`
       let data = "&dataInicio="+dataInicial+'&dataFim='+dataFinal
 
       let consulta = '?'+ itens  + "&dataInicio=2021-07-07&dataFim=2021-07-15"//data
-  
+
       console.log(consulta);
-      await axiosInstance.get("votacoes"+consulta,config).then((response) =>{
+      await axiosCamara.get("votacoes"+consulta,config).then((response) =>{
         this.$q.loading.hide()
         console.log(response)
         this.votacoes = this.filtro_situacao == 'tudo'?response.data.dados:response.data.dados.filter(element => { return element.aprovacao == this.filtro_situacao})
        // this.votacoes = response.data.dados.filter(element => {return (element.descricao.includes('Sim:') && element.aprovacao == this.filtro_situacao)} )
         this.$q.localStorage.set('ultimaPesquisaVotacoes',this.votacoes)
-      
+
       }).catch((erro)=>{
         this.$q.loading.hide()
         console.log(erro)
       })
     }
   },
-    
+
  beforeMount(){
     ORGAOS.forEach(element => {
       this.select_orgaos.push(element['sigla'] +' - '+element.nome)
@@ -191,12 +191,12 @@ export default {
     }else{
       this.votacoes = this.$q.localStorage.getItem('ultimaPesquisaVotacoes')
     }
-  
+
  },
  mounted(){
 
  }
-   
+
 }
 </script>
 <style >
