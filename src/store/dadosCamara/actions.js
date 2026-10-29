@@ -1,19 +1,19 @@
-import { axiosInstance } from 'boot/axios'
+import { axiosCamara } from 'boot/axios'
 import {Axios} from 'boot/axios'
 const config = { headers: { 'Content-Type': 'application/json' } };
 import { LocalStorage } from 'quasar';
 
 
 export async function requisitarVotacoes({commit},consulta){
-  await axiosInstance.get("votacoes/",config).then((response) =>{
+  await axiosCamara.get("votacoes/",config).then((response) =>{
   console.log(response)
-  commit('alterarDeputados',response.data.dados) 
+  commit('alterarDeputados',response.data.dados)
 }).catch((erro)=>{
   console.log(erro)
 })
 }
 export async function requisitarDeputados({commit},consulta){
-  await axiosInstance.get("deputados/"+consulta,config).then((response) =>{
+  await axiosCamara.get("deputados/"+consulta,config).then((response) =>{
     console.log(response);
     commit('alterarDeputados',response.data.dados);
     LocalStorage.set('ultimaPesquisaDeputados',response.data.dados);
@@ -36,7 +36,7 @@ export async function requisitarDeputados({commit},consulta){
   })
 }
 export async function informacaoDeputado({commit},deputadoEscolhido){
-  await axiosInstance.get("deputados/"+deputadoEscolhido.id,config).then((response) =>{
+  await axiosCamara.get("deputados/"+deputadoEscolhido.id,config).then((response) =>{
     console.log("ENTROU INFORMACAO DEPUTADO");
     console.log(response)
     this.$router.push({name:'Deputado',params:{deputado:response.data.dados}})
@@ -45,17 +45,17 @@ export async function informacaoDeputado({commit},deputadoEscolhido){
   })
 }
 export async function requisitarProposicoes({commit},consulta){
-  /*  
-    await axiosInstance.get("proposicoes"+consulta,config).then((response) =>{
+  /*
+    await axiosCamara.get("proposicoes"+consulta,config).then((response) =>{
     console.log(response)
-    
+
     let resultado = response.data.dados
     commit('alterarProposicoes',resultado)
 
     if(Array.isArray(resultado)){
       if(resultado.length > 0){
         resultado.forEach(element => {
-          if(element.uri){ 
+          if(element.uri){
             Axios.get(element.uri,config).then((response) =>{
               console.log(response);
               commit('alterarProposicoesDetalhadas',response.data.dados)

@@ -1,6 +1,6 @@
 <template>
   <q-page v-show="mostrarTela">
-      <div v-if="evento"> 
+      <div v-if="evento">
         <q-video
           v-if="evento['urlRegistro']"
          :ratio="16/9"
@@ -23,48 +23,48 @@
           <div v-if="votacaoDetalhes['descUltimaAberturaVotacao'] || votacaoDetalhes['descricao'] " class="col-12 bg-yellow-3 text-center text-weight-bold">
             {{votacaoDetalhes['descUltimaAberturaVotacao']?votacaoDetalhes['descUltimaAberturaVotacao']:votacaoDetalhes['descricao']}}
           </div>
-         
+
           <div v-if="proposicaoCitada['urlInteiroTeor']" class="col-12 " style="padding:10px 0px 5px 0px">
-            <q-btn 
-              no-caps 
-              type="a" :href="proposicaoCitada['urlInteiroTeor']" target="_blank" 
-              label="Ver proposição citada" 
+            <q-btn
+              no-caps
+              type="a" :href="proposicaoCitada['urlInteiroTeor']" target="_blank"
+              label="Ver proposição citada"
               color="primary"
             />
           </div>
           <div v-if="votacaoDetalhes['siglaOrgao']" class="col-12 " style="padding:5px 0px 5px 0px">
             <span class="text-weight-bold">Órgão de votação:</span>  {{votacaoDetalhes['siglaOrgao']}}
           </div>
-         
+
           <div v-if="votacaoDetalhes['descricao']" class="col-12 " style="padding:5px 0px 5px 0px">
             <span v-if="votacaoDetalhes['descricao']" class="text-weight-bold">
               Descrição Votação:
-            </span>  
+            </span>
             {{votacaoDetalhes['descricao']?votacaoDetalhes['descricao']:''}}
           </div>
           <div v-if="votacaoDetalhes['ultimaApresentacaoProposicao']" class="col-12 " style="padding:5px 0px 5px 0px">
             <span v-if="votacaoDetalhes['ultimaApresentacaoProposicao']['descricao']" class="text-weight-bold">
               Descrição Proposição Citada:
-            </span>  
+            </span>
             {{votacaoDetalhes['ultimaApresentacaoProposicao']['descricao']?votacaoDetalhes['ultimaApresentacaoProposicao']['descricao']:''}}
           </div>
 
           <div v-if="proposicoesAfetadas" >
-            <div class="text-weight-bold" style="margin-top:10px" v-if="proposicoesAfetadas.length > 0">Proposições Afetadas</div> 
-             <!-- Enviar para página de Proposicao--> 
-            <q-btn 
+            <div class="text-weight-bold" style="margin-top:10px" v-if="proposicoesAfetadas.length > 0">Proposições Afetadas</div>
+             <!-- Enviar para página de Proposicao-->
+            <q-btn
               @click="verProposicaoAfetada(prop['uri'])"
               v-for="(prop,index) in proposicoesAfetadas"
               :key="index"
-              color="red"  
-              rounded 
+              color="red"
+              rounded
               :label="prop['siglaTipo'] + '/' + prop['id']"
-              style="margin-top:10px" 
+              style="margin-top:10px"
             />
           </div>
         </div>
         </q-expansion-item>
-      <!-- Votos Deputados --> 
+      <!-- Votos Deputados -->
       <q-expansion-item
         v-if="mostrarVotosDeputados"
         default-opened
@@ -79,16 +79,16 @@
       >
 
         <div class="bg-white text-grey-9">
-        <div class="row justify-center">  
+        <div class="row justify-center">
           <div class="col-12">
-          <apexchart 
-            type="pie" 
-            :options="optionsGraficoDeputados" 
+          <apexchart
+            type="pie"
+            :options="optionsGraficoDeputados"
             :series="seriesGraficoDeputados"
           ></apexchart>
           </div>
         </div>
-        <!-- DEPUTADOS FAVORÁVEIS --> 
+        <!-- DEPUTADOS FAVORÁVEIS -->
           <q-expansion-item
             expand-separator
             icon="fas fa-check-circle"
@@ -99,13 +99,13 @@
             class="full-width  text-grey-9 text-center"
             style="margin-top:15px; font-size:20px"
           >
-             <q-input 
+             <q-input
               @input="filtrarDeputadosFavoraveis"
-              style="padding:6px" 
-              filled 
-              v-model="procurarDeputadoVotoSim" 
+              style="padding:6px"
+              filled
+              v-model="procurarDeputadoVotoSim"
               label="Procure um candidato .." />
-       
+
             <q-list dense v-if="deputadosFavoraveis">
               <q-item v-for="(deputadoFavoravel,index) in filtroDeputadosFavoraveis" :key="index">
                 <q-item-section top avatar>
@@ -121,10 +121,10 @@
                   <q-item-label style="font-size:16px">Voto</q-item-label>
                   <q-badge color="positive" text-color="white" label="Sim" />
                 </q-item-section>
-              </q-item>  
-            </q-list> 
+              </q-item>
+            </q-list>
           </q-expansion-item>
-        <!-- DEPUTADOS CONTRA --> 
+        <!-- DEPUTADOS CONTRA -->
          <q-expansion-item
             expand-separator
             icon="fas fa-times-circle"
@@ -134,13 +134,13 @@
             label="Deputados contra"
             class="full-width  text-grey-9 text-center"
             style="margin-top:15px; font-size:20px"
-        > 
-         <q-input 
+        >
+         <q-input
          @input="filtrarDeputadosContrarios"
-          style="padding:6px" 
-          filled 
-          v-model="procurarDeputadoVotoNao" 
-          label="Procure um candidato .." 
+          style="padding:6px"
+          filled
+          v-model="procurarDeputadoVotoNao"
+          label="Procure um candidato .."
          />
          <q-list dense v-if="deputadosContrarios">
               <q-item v-for="(deputadoContrario,index) in filtroDeputadosContrarios" :key="index">
@@ -157,10 +157,10 @@
                   <q-item-label style="font-size:16px">Voto</q-item-label>
                   <q-badge color="red" text-color="white" label="Não" />
                 </q-item-section>
-              </q-item>  
-            </q-list> 
+              </q-item>
+            </q-list>
         </q-expansion-item>
-        <!-- DEPUTADOS ABSTENÇÕES --> 
+        <!-- DEPUTADOS ABSTENÇÕES -->
           <q-expansion-item
             expand-separator
             icon="fas fa-grip-lines"
@@ -168,10 +168,10 @@
             expand-icon="fas fa-chevron-right"
             expand-icon-class="text-grey-9"
             label="Abstenções / Outros"
-            
+
             class="full-width text-grey-9  text-center "
             style="margin-top:15px; font-size:20px"
-        > 
+        >
           <q-list dense v-if="deputadosAbstencao" >
               <q-item v-for="(deputadoAbsteve,index) in deputadosAbstencao" :key="index">
                 <q-item-section top avatar>
@@ -187,13 +187,13 @@
                   <q-item-label caption>Voto:</q-item-label>
                   <q-badge color="red" text-color="white" label="Não" />
                 </q-item-section>
-              </q-item>  
-            </q-list> 
-        
+              </q-item>
+            </q-list>
+
         </q-expansion-item>
         </div>
-      </q-expansion-item> 
-      <!-- Orientão partidos --> 
+      </q-expansion-item>
+      <!-- Orientão partidos -->
         <q-expansion-item
           v-if="mostrarVotosPartidos"
             default-opened
@@ -207,9 +207,9 @@
             style="margin-top:15px; font-size:20px; margin-bottom:80px"
         >
         <div class="bg-white text-grey-9">
-          <apexchart 
-            type="donut" 
-            :options="optionsGraficoPartidos" 
+          <apexchart
+            type="donut"
+            :options="optionsGraficoPartidos"
             :series="seriesGraficoPartidos"
           ></apexchart>
           <q-expansion-item
@@ -231,8 +231,8 @@
                   <q-item-label >Orientação: <q-badge color="positive" text-color="white">{{partidoFavoravel['orientacaoVoto']}}</q-badge></q-item-label>
                 </q-item-section>
 
-              </q-item>  
-            </q-list> 
+              </q-item>
+            </q-list>
           </q-expansion-item>
          <q-expansion-item
             expand-separator
@@ -243,7 +243,7 @@
             label="Partidos contra"
             class="full-width  text-grey-9 text-center "
             style="margin-top:15px; font-size:20px"
-        > 
+        >
          <q-list dense v-if="partidosContrarios">
             <q-item v-for="(partidoContrario,index) in partidosContrarios" :key="index">
                 <q-item-section top avatar>
@@ -253,9 +253,9 @@
                   <q-item-label class="">Orientação:  <q-badge color="red" text-color="white">{{partidoContrario['orientacaoVoto']}}</q-badge></q-item-label>
                 </q-item-section>
 
-              </q-item>  
-            </q-list> 
-        </q-expansion-item> 
+              </q-item>
+            </q-list>
+        </q-expansion-item>
           <q-expansion-item
             expand-separator
             icon="fas fa-grip-lines"
@@ -265,18 +265,18 @@
             label="Abstenções / Outros"
             class="full-width  text-grey-9 text-center"
             style="margin-top:15px; font-size:20px"
-        > 
+        >
             <q-list dense v-if="partidosAbstencao">
             <q-item v-for="(partidoAbsteve,index) in partidosAbstencao" :key="index">
                 <q-item-section top avatar>
                 <q-chip>  {{partidoAbsteve['siglaPartidoBloco']}} </q-chip>
                 </q-item-section>
-              </q-item>  
-            </q-list> 
+              </q-item>
+            </q-list>
         </q-expansion-item>
         </div>
-      </q-expansion-item> 
-      <!-- VOTAÇÃO POPULAR  
+      </q-expansion-item>
+      <!-- VOTAÇÃO POPULAR
         <q-expansion-item
             default-opened
             expand-separator
@@ -289,7 +289,7 @@
             style="margin-top:15px; font-size:20px;margin-bottom:60px"
         >
         <div class="bg-white text-grey-9">
-          
+
         </div>
       </q-expansion-item>
       -->
@@ -297,7 +297,7 @@
 </template>
 <script>
 const config = { headers: { 'Content-Type': 'application/json' } };
-import { axiosInstance } from 'boot/axios'
+import { axiosCamara } from 'boot/axios'
 import {Axios} from 'boot/axios'
 import { QSpinnerCube } from 'quasar';
 import VueApexCharts from 'vue-apexcharts'
@@ -332,7 +332,7 @@ export default {
               png: {
                 filename: undefined,
               }
-            } 
+            }
           }
         }
       },
@@ -363,7 +363,7 @@ export default {
               png: {
                 filename: undefined,
               }
-            } 
+            }
           }
         }
       },
@@ -381,7 +381,7 @@ export default {
 
       deputadosFavoraveis:[],
       filtroDeputadosFavoraveis:[],
-      
+
       deputadosContrarios:[],
       filtroDeputadosContrarios:[],
 
@@ -395,7 +395,7 @@ export default {
       mostrarVotosPartidos:false,
     }
   },
- 
+
   methods:{
     filtrarDeputadosFavoraveis(){
       if(this.procurarDeputadoVotoSim.length == 0){
@@ -436,27 +436,27 @@ export default {
         message:"Carregando ..."
       })
       Promise.allSettled([
-        this.procurarEventoPromisse(), 
-        this.procurarDetalhesVotacaoPromisse(this.votacao['uri']), 
-        this.procurarVotosPromisse(this.votacao['uri']), 
+        this.procurarEventoPromisse(),
+        this.procurarDetalhesVotacaoPromisse(this.votacao['uri']),
+        this.procurarVotosPromisse(this.votacao['uri']),
         this.procurarOrientacaoPartidoPromisse(this.votacao['uri'])
       ]).then((response) => {
           console.log(response);
           this.mostrarTela = true
           this.$q.loading.hide()
-          // Evento --> response[0] 
+          // Evento --> response[0]
           if(response[0]['value'])
             this.resolverEvento(response[0]['value'])
           // Detalhes Votação  --> response[1]
           if(response[1]['value'])
             this.resolverDetalhesVotacao(response[1]['value'])
-          //VOTOS --> response[2] 
+          //VOTOS --> response[2]
           if(response[2]['value'])
             this.resolverVotos(response[2]['value'])
           //Orientação Partido
           if(response[3]['value'])
-          this.resolverOrientacaoPartido(response[3]['value'])          
-        }).catch(erro => {   
+          this.resolverOrientacaoPartido(response[3]['value'])
+        }).catch(erro => {
             this.mostrarTela = true
             this.$q.loading.hide()
             console.log(erro)
@@ -468,7 +468,7 @@ export default {
         let complementoUrl = response.data.dados.urlRegistro.split('watch?v=')
         this.urlVideo = 'https://www.youtube.com/embed/'+complementoUrl[1]
       }
-     
+
     },
     async procurarEventoPromisse(){
       let url = this.votacao['uriEvento']
@@ -483,7 +483,7 @@ export default {
       console.log(this.votacaoDetalhes);
       if(this.votacaoDetalhes['ultimaApresentacaoProposicao']['uriProposicaoCitada']){
         let uri = this.votacaoDetalhes['ultimaApresentacaoProposicao']['uriProposicaoCitada']
-        this.procurarProposicaoCitada(uri) 
+        this.procurarProposicaoCitada(uri)
         this.proposicoesAfetadas = this.votacaoDetalhes['proposicoesAfetadas']
       }
     },
@@ -508,7 +508,7 @@ export default {
               return element['tipoVoto'] == 'Sim'
               })
               this.filtroDeputadosFavoraveis = this.deputadosFavoraveis
-              
+
               this.deputadosContrarios = todosVotos.filter(element => {
                 return element['tipoVoto'] == 'Não'
               })
@@ -525,7 +525,7 @@ export default {
               this.seriesGraficoDeputados.push(numeroFavoraveis)
               this.seriesGraficoDeputados.push(numeroNaoFavoraveis)
               this.seriesGraficoDeputados.push(numeroAbstencoes)
-              
+
             }
           }
     },
@@ -535,7 +535,7 @@ export default {
         return response
       }
     },
-    resolverOrientacaoPartido(response){  
+    resolverOrientacaoPartido(response){
         let todosVotos = response.data.dados
         if(Array.isArray(todosVotos)){
           if(todosVotos.length > 0){
@@ -591,9 +591,9 @@ export default {
     }
   },
   mounted(){
-  
+
   }
-   
+
 }
 </script>
 <style >

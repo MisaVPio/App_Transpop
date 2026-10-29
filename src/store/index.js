@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import dadosAbertos from './dadosAbertos'
 import globais from './globais'
+import dadosSenado from './dadosSenado'
+import dadosCamara from './dadosCamara'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -18,7 +19,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      dadosAbertos,
+      dadosCamara,
+      dadosSenado,
       globais
     },
 

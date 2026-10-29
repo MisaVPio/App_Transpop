@@ -1,5 +1,5 @@
 <template>
-    <q-page > 
+    <q-page >
          <div class="row" >
               <div class="col-6 text-left text-weight-bold text-grey-9">Última atualização:<br>
               <span v-if="deputado.ultimoStatus.data" class="text-caption">{{ new Date(Date.parse(deputado.ultimoStatus.data)).toLocaleString('pt-BR') }}</span>
@@ -9,48 +9,48 @@
             <!-- <q-btn flat round color="grey-9" icon="fas fa-share-alt" /> -->
                 <q-btn @click="atualizarDeputadoFavoritos" flat round color="red" :icon="favorito?'fas fa-heart':'far fa-heart'" />
             </div>
-        
+
         </div>
         <div class="row" style="margin-top:20px">
             <div class="text-h6 col-12 text-center text-grey-9">{{deputado.nomeCivil?deputado.nomeCivil:'Não informado'}}</div>
         </div>
         <div class="row " style="margin-top:10px">
             <div class="col-4  row justify-center" style="border-radius:10px;" v-if="deputado">
-                <q-img contain v-if="deputado.ultimoStatus.urlFoto"  style="padding:10px" height="180px" :src="deputado.ultimoStatus.urlFoto" /> 
+                <q-img contain v-if="deputado.ultimoStatus.urlFoto"  style="padding:10px" height="180px" :src="deputado.ultimoStatus.urlFoto" />
                 <q-img contain v-if="!deputado.ultimoStatus.urlFoto" style="padding:10px"  height="180px" src="~assets/icone_deputados.png" />
             </div>
-            
-            <div class="col-8" style="padding-left:10px">    
+
+            <div class="col-8" style="padding-left:10px">
                 <!-- Nome Eleitoral -->
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Nome Eleitoral:</span>
                         {{deputado.ultimoStatus.nomeEleitoral}}
                     </div>
                 </div>
                 <!-- CONDIÇÃO ELEITORAL -->
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Condição:</span>
                         {{deputado.ultimoStatus.condicaoEleitoral?deputado.ultimoStatus.condicaoEleitoral:'Não informado'}}
                     </div>
                 </div>
                 <!-- SITUAÇÃO-->
-                  <div class="row"> 
+                  <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Situação:</span>
                         {{deputado.ultimoStatus.situacao?deputado.ultimoStatus.situacao: 'Não informado'}}
                     </div>
                 </div>
                 <!-- GABINETE-->
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Gabinete:</span>
                         {{ informacoesGabinete(deputado.ultimoStatus.gabinete )}}
                     </div>
                 </div>
                 <!-- TELEFONE GABINETE -->
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Telefone:</span>
                         {{deputado.ultimoStatus.gabinete.telefone?'(61) '+deputado.ultimoStatus.gabinete.telefone:'Não informado'}}
@@ -61,11 +61,11 @@
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Partido:</span>
                         {{informacoesPartido(deputado)}}
-                         
+
                     </div>
                 </div>
                 <!-- NATURALIDADE -->
-                <div class="row"> 
+                <div class="row">
                     <div class="col-12 text-grey-9 self-center">
                         <span class="text-weight-bold">Natural:</span>
                         {{informacoesNaturalidade(deputado)}}
@@ -79,14 +79,14 @@
                     </div>
                 </div>
                 <!-- PROFISSÕES -->
-                <div v-if="profissoes"> 
-                    <span class="text-grey-9 text-weight-bold" >Profissões:</span>  
+                <div v-if="profissoes">
+                    <span class="text-grey-9 text-weight-bold" >Profissões:</span>
                     <q-badge  style="margin-left:10px;font-size:14px" v-for="(prof,index) in profissoes" :key="index" transparent align="middle" color="positive" :label="prof.titulo" />
                 </div>
             </div>
         </div>
-   
-         <!-- REDES SOCIAIS --> 
+
+         <!-- REDES SOCIAIS -->
         <q-expansion-item
             default-opened
             expand-separator
@@ -100,8 +100,8 @@
         >
             <div class="row bg-white">
                 <div class="col-12 text-grey-9 ">
-                    <q-icon name="fas fa-envelope" color="grey" style="padding-right:10px" /> 
-                    <span class="text-subtitle1 text-weight-bold">{{deputado.ultimoStatus.email?deputado.ultimoStatus.email:'Não informado'}}</span> 
+                    <q-icon name="fas fa-envelope" color="grey" style="padding-right:10px" />
+                    <span class="text-subtitle1 text-weight-bold">{{deputado.ultimoStatus.email?deputado.ultimoStatus.email:'Não informado'}}</span>
                 </div>
             </div>
             <div class="row bg-white justify-center">
@@ -111,12 +111,12 @@
                     <q-btn :type="redesSociais.twitter?'a':''" target="blank" :href="redesSociais.twitter?redesSociais.twitter:''" :disable="redesSociais.twitter.length == 0?true:false" size="20px" flat :text-color="redesSociais.twitter?'blue':'grey'" icon="fab fa-twitter" />
                     <q-btn :type="redesSociais.linkedin?'a':''" target="blank" :href="redesSociais.linkedin?redesSociais.linkedin:''" :disable="redesSociais.linkedin.length == 0?true:false" size="20px" flat :text-color="redesSociais.linkedin?'info':'grey'" icon="fab fa-linkedin" />
                     <q-btn :type="redesSociais.youtube?'a':''" target="blank" :href="redesSociais.youtube?redesSociais.youtube:''" :disable="redesSociais.youtube.length == 0?true:false" size="20px" flat :text-color="redesSociais.youtube?'red':'grey'" icon="fab fa-youtube" />
-                    
+
                 </div>
             </div>
 
         </q-expansion-item>
-          <!-- PROPOSIÇÕES 
+          <!-- PROPOSIÇÕES
         <q-expansion-item
             default-opened
             expand-separator
@@ -130,14 +130,14 @@
         >
             <div class="row bg-white">
                 <div class="col-12 text-grey-9 ">
-                    <q-icon name="fas fa-envelope" color="grey" style="padding-right:10px" /> 
-                    <span class="text-subtitle1 text-weight-bold">  Em construção</span> 
+                    <q-icon name="fas fa-envelope" color="grey" style="padding-right:10px" />
+                    <span class="text-subtitle1 text-weight-bold">  Em construção</span>
                 </div>
             </div>
         </q-expansion-item>
         -->
         <!-- DESPESAS -->
-       
+
         <q-expansion-item
                 expand-separator
                 expanded-icon="fas fa-chevron-down"
@@ -147,16 +147,16 @@
                 class="full-width  text-white text-center text-h6 bg-gradient"
                 style=" margin-top:15px"
             >
-            
+
             <div >
                 <q-select behavior="menu" @input="procurarDespesas" class="bg-white text-positive" outlined v-model="filtroDespesa_ano" :options="anosDespesas" label="Ano" />
             </div>
             <div class="row bg-white">
                 <div class=" col-12 text-red text-h6 bg-white full-width" v-show="!loadingDespesas">
-                    <span class="text-grey-9">Total:</span> 
+                    <span class="text-grey-9">Total:</span>
                     R$ {{valorDespesaTotal > 0?valorDespesaTotal.toString().split('.')[0]+','+valorDespesaTotal.toString().split('.')[1].slice(0,2):0}} </div>
             </div>
-           
+
             <q-list class="bg-white text-grey-9 text-justify" style="min-height: 350px;">
                   <transition
                         appear
@@ -168,10 +168,10 @@
                         :items="despesas"
                         separator
                     >
-                   
+
                     <template v-slot="{item,index}">
                         <q-item  :key="index">
-                            
+
                             <q-item-section>
                                 <q-item-label class="text-capitalize text-subtitle1">{{item.tipoDespesa.toLowerCase()}}</q-item-label>
                                 <q-item-label caption lines="2">{{item.nomeFornecedor}}</q-item-label>
@@ -185,7 +185,7 @@
                             </q-item-section>
                         </q-item>
                     </template>
-                   
+
                     </q-virtual-scroll>
                  </transition>
                     <q-inner-loading :showing="loadingDespesas">
@@ -215,7 +215,7 @@
                 </div>
             </div>
         </q-expansion-item>
-        <!-- Publicações político 
+        <!-- Publicações político
             <q-expansion-item
                     expand-separator
                     icon=""
@@ -240,7 +240,7 @@
 <script>
 const ANOS_DESPESA = [2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009]
 const config = { headers: { 'Content-Type': 'application/json' } };
-import { axiosInstance } from 'boot/axios'
+import { axiosCamara } from 'boot/axios'
 import {Axios} from 'boot/axios'
 export default {
   data () {
@@ -253,7 +253,7 @@ export default {
         discursos:null,
         frentes:null,
         redesSociais:{twitter:'', facebook:'', instagram:'', linkedin:'', youtube:'', youtube:''},
-        
+
         paginaAtualDespesa:1,
         paginaFinalDespesa:1,
         loadingDespesas:false,
@@ -269,25 +269,25 @@ export default {
         }
     },
     methods:{
-        resolve(){     
-            Promise.allSettled([this.profissao(), this.procurarDespesas(), this.procurarOcupacoes()]).then((response) => {        
-                // PROFISSÕES --> response[0] 
+        resolve(){
+            Promise.allSettled([this.profissao(), this.procurarDespesas(), this.procurarOcupacoes()]).then((response) => {
+                // PROFISSÕES --> response[0]
                 this.profissoes = response[0]['value']['data']['dados']
                 // DESPESAS  --> response[1]
                 //this.despesas = response[1]['value']
-                
-                //OCUPAÇÕES --> response[2] 
+
+                //OCUPAÇÕES --> response[2]
                 this.ocupacoes = response[2]['value']['data']['dados']
-            }).catch(erro => {   
+            }).catch(erro => {
                 console.log(erro);});
         },
         async profissao(){
-            const profissoes = await axiosInstance.get("deputados/"+this.deputado.id+"/profissoes",config)
+            const profissoes = await axiosCamara.get("deputados/"+this.deputado.id+"/profissoes",config)
             return profissoes
         },
         async procurarDespesas(){
             this.loadingDespesas = true
-            const despesas = await axiosInstance.get("deputados/"+this.deputado.id+"/despesas?itens=100&ano="+this.filtroDespesa_ano,config)
+            const despesas = await axiosCamara.get("deputados/"+this.deputado.id+"/despesas?itens=100&ano="+this.filtroDespesa_ano,config)
             this.despesas = []
             if(!despesas['data']['dados']){
                 this.valorDespesaTotal = 0
@@ -308,7 +308,7 @@ export default {
             let linkPaginaAtual = despesas.data.links.find( element =>  element.rel.toUpperCase() == "SELF")["href"]
             let linkUltimaPagina = despesas.data.links.find( element =>  element.rel.toUpperCase() == "LAST")["href"]
            // console.log("LINKS \n"+ linkPrimeiraPagina + "\n" + linkProximaPagina + "\n" + linkUltimaPagina);
-            
+
             let paginaAtualLink = linkPaginaAtual.split("&")[1]
             let qtdPaginaAtual = parseInt(paginaAtualLink.split("pagina=")[1])
             this.paginaAtualDespesa = qtdPaginaAtual?qtdPaginaAtual:1
@@ -316,7 +316,7 @@ export default {
             let paginaUltimoLink = linkUltimaPagina.split("&")[1]
             let qtdPaginas = parseInt(paginaUltimoLink.split("pagina=")[1])
             this.paginaFinalDespesa = qtdPaginas?qtdPaginas:1;
-            
+
             let todasDespesas = despesas["data"]["dados"]
 
             //ADICIONANDO TODAS AS DESPESAS
@@ -338,7 +338,7 @@ export default {
             this.loadingDespesas = false
         },
         async procurarOcupacoes(){
-            const ocupacoes = await axiosInstance.get("deputados/"+this.deputado.id+"/ocupacoes",config)
+            const ocupacoes = await axiosCamara.get("deputados/"+this.deputado.id+"/ocupacoes",config)
             return ocupacoes
         },
         procurarRedesSociais(){
@@ -363,7 +363,7 @@ export default {
             }
         },
         informacoesGabinete(gabinete){
-                let sala = gabinete.sala?gabinete.sala :'' 
+                let sala = gabinete.sala?gabinete.sala :''
                 let predio = gabinete.predio?' - Anexo ' + gabinete.predio :''
                 let andar = gabinete.andar?' - '+gabinete.andar+'º Andar':''
 
@@ -374,7 +374,7 @@ export default {
                 return resultado
         },
         informacoesPartido(deputado){
-                let siglaPartido = deputado.ultimoStatus.siglaPartido?deputado.ultimoStatus.siglaPartido:'' 
+                let siglaPartido = deputado.ultimoStatus.siglaPartido?deputado.ultimoStatus.siglaPartido:''
                 let siglaUf =  deputado.ultimoStatus.siglaUf?' - ' + deputado.ultimoStatus.siglaUf:''
                 let resultado = siglaPartido + siglaUf
                 if(!resultado){
@@ -383,7 +383,7 @@ export default {
                 return resultado
         },
         informacoesNaturalidade(deputado){
-            let municipio = deputado.municipioNascimento?deputado.municipioNascimento:'' 
+            let municipio = deputado.municipioNascimento?deputado.municipioNascimento:''
             let uf = deputado.ufNascimento?' - '+ deputado.ufNascimento:''
             let resultado = municipio + uf
             if(!resultado){
@@ -392,8 +392,8 @@ export default {
             return resultado;
         },
         informacoesProfissoesAnteriores(profissaoAnterior){
-            let entidade = profissaoAnterior.entidade ? profissaoAnterior.entidade:'' 
-            let entidadeUF = profissaoAnterior.entidadeUF ?' - ' + profissaoAnterior.entidadeUF:'' 
+            let entidade = profissaoAnterior.entidade ? profissaoAnterior.entidade:''
+            let entidadeUF = profissaoAnterior.entidadeUF ?' - ' + profissaoAnterior.entidadeUF:''
             let entidadePais = profissaoAnterior.entidadePais ? ', ' + profissaoAnterior.entidadePais:''
             let resultado = entidade + entidadeUF + entidadePais
 
@@ -407,8 +407,8 @@ export default {
             deputadosFavoritos.forEach(element =>{
                 if(element == this.deputado.id){
                     this.favorito = true;
-                }  
-            }) 
+                }
+            })
         },
         atualizarDeputadoFavoritos(){
             console.log("ATUALIZAR DEPUTADOS FAVORITOS");
@@ -438,7 +438,7 @@ export default {
                 this.favorito = true
                  this.salvarDeputadoBanco()
             }
-            
+
         },
         salvarDeputadoBanco(){
            /* let userId = '615a3c8368a2c4f22b83bb0d'
